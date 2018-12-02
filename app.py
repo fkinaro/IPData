@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys
 import pygeoip
+import sys
 
 
 gi = pygeoip.GeoIP('GeoLiteCity.dat')
@@ -38,30 +38,29 @@ def get_input():
     mode = input('Enter address (a) or hostname (h)')
     if mode.lower() == 'a':
         address = input('Enter the address\t')
+        # call the function
+        get_add_info(addr)
     elif mode.lower() == 'h':
         hostname = input('Enter the hostname:\t')
+        # call get_hostname_info
+        get_hostname_info(hostname)
     else:
         print('Wrong choice. Try again...')
         get_input()
 
 
-# main function
-# Get input first
 get_input()
-# Query database
+
 if len(hostname) > 0:
     try:
         get_hostname_info(hostname)
         print('===================================================')
     except Exception:
         print('An error occurred')
-    finally:
-        hostname = ''
 elif len(addr) > 0:
     try:
         get_address_info(addr)
         print('===================================================')
     except Exception:
         print('An error occurred')
-    finally:
-        addr = ''
+
