@@ -6,28 +6,20 @@ import sys
 
 gi = pygeoip.GeoIP('GeoLiteCity.dat')
 
-# Define functions to:
 # Get record by hostname
 def get_hostname_info(hostname):
     '''Get the country details using host address'''
-    try:
-        rec = gi.record_by_name(hostname)
-        print(f'Details for {hostname}')
-        print(str(rec))
-    except Exception:
-        print('an error occured\nAborting...')
-        sys.exit(1)
+    rec = gi.record_by_name(hostname)
+    print(f'Details for {hostname}')
+    print(str(rec))
+
 
 # Get record by address
 def get_addr_info(address):
     '''Get country record by IP address'''
-    try:
-        rec = gi.record_by_addr(address)
-        print(f'Details for {address}')
-        print(str(rec))
-    except Exception:
-        print('An error occurred.\nAborting...')
-        sys.exit(1)
+    rec = gi.record_by_addr(address)
+    print(f'Details for {address}')
+    print(str(rec))
 
 
 # Get user input
@@ -39,7 +31,7 @@ def get_input():
     if mode.lower() == 'a':
         address = input('Enter the address\t')
         # call the function
-        get_add_info(addr)
+        get_addr_info(addr)
     elif mode.lower() == 'h':
         hostname = input('Enter the hostname:\t')
         # call get_hostname_info
@@ -49,18 +41,22 @@ def get_input():
         get_input()
 
 
-get_input()
+def main():
+    get_input()
+    if len(hostname) > 0:
+        try:
+            get_hostname_info(hostname)
+            print('===================================================')
+        except Exception:
+            print('An error occurred')
 
-if len(hostname) > 0:
-    try:
-        get_hostname_info(hostname)
-        print('===================================================')
-    except Exception:
-        print('An error occurred')
-elif len(addr) > 0:
-    try:
-        get_address_info(addr)
-        print('===================================================')
-    except Exception:
-        print('An error occurred')
 
+    if len(addr) > 0:
+        try:
+            get_address_info(addr)
+            print('===================================================')
+        except Exception:
+            print('An error occurred')
+
+
+main()
